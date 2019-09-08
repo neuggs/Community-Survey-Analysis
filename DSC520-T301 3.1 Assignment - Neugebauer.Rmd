@@ -1,0 +1,202 @@
+---
+title: "American Community Survey Analysis"
+author: "Frank Neugebauer"
+date: "December 15, 2018"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(ggplot2)
+# Import the data
+comm_sur <- read.csv("acs-14-1yr-s0201.csv", header=TRUE)
+```
+1. Document the elements in your data including the categories and data types.
+    * Id: Factor with 136 levels
+    * Id2: Int
+    * Geography: Factor with 136 levels
+    * PopGroupId: Int
+    * POPGROUP.display.label: Factor with 1 level
+    * RacesReported: int
+    * HSDegree: num
+    * BachDegree
+2. Report the output from at least the following functions: str(); nrow(); ncol()
+```{r}
+str(comm_sur)
+nrow(comm_sur)
+ncol(comm_sur)
+```
+3. Create a Histogram of the HSDegree variable using the ggplot2 package. Set a bin size for the Histogram.
+```{r}
+ggplot(comm_sur, aes(x = HSDegree)) + geom_histogram(binwidth=1)
+```
+4. Include a Title and appropriate X/Y axis labels on your Histogram Plot.
+```{r}
+ggplot(comm_sur, aes(x = HSDegree)) + geom_histogram(binwidth=1) +   
+  ggtitle("Histogram of High School Degree") +
+  labs(x = "Count of HS Degrees", y = "Frequency")
+```
+
+5. Answer the following questions based on the Histogram produced: 
+    a) **Based on what you see in this histogram, is the data distribution 
+    unimodal?** The histogram does not appear to be unimodel. While there is
+    one dominant hump at 90, there's also other smaller ones at 85 and ~94.
+    b) **Is it approximately symmetrical?** No - the histogram is clearly 
+    skewed right, with counts between 85 and 95 dominating the graph.
+    c) **Is it approximately bell-shaped?** No. Again, there are clear sub-peaks
+    at 85 and ~94 and valleys at ~86 and ~93. (There are also smaller peaks
+    and valleys from ~76 to ~85.
+    d) **Is it approximately normal?** Looking at the historgram as a whole
+    (and without any other calculations), I'd say it is not normal; the 
+    distribution goes from about 65 - 100 with the majority of degrees
+    between 85 and 100, which implies the distribution is skewed towards
+    the higher values. 
+    e) **If not normal, is the distribution skewed? If so, in which direction? 
+    Provide specifics in your responses.** Please refer to 5d for my response
+    to this. (Skewed right because the majority of values lies above 80 on a 
+    scale from ~60 - ~100).
+    f) **Include a normal curve to the Histogram that you plotted.**
+```{r}
+ggplot(comm_sur, aes(x = HSDegree)) + geom_histogram(binwidth=1) +   
+  ggtitle("Histogram of High School Degree") +
+  labs(x = "Count of HS Degrees", y = "Frequency") +
+  geom_density(aes(y=0.045*..count..), colour="red")
+```
+    
+    I'm not entirely sure this is what is required. The red curve doesn't look
+    any more normal than the historgram.
+    
+5. Continued
+    g) **Explain whether a normal distribution can accurately be used as a 
+    model for this data.** I do not believe so because again, the data is so
+    heavily skewed right.
+6. Create a Probability Plot of the HSDegree variable.
+```{r}
+qqnorm(comm_sur$HSDegree, pch = 1, frame = FALSE)
+qqline(comm_sur$HSDegree, col = "steelblue", lwd = 2)
+```
+
+The solid line is a reference line of the probability plot.
+
+7. Answer the following questions based on the Probability Plot:
+    a) **Based on what you see in this probability plot, is the distribution 
+    approximately normal? Explain how you know.** While it looks visually
+    'close' to normal, the fact remains that The pattern of data is non-linear. 
+    This says to me that the distribution is (still) not normal, providing more
+    statistical evidence to the visual conclusion earlier.
+    b) **If not normal, is the distribution skewed? If so, in which direction? 
+    Explain how you know.** The values are far more closely distributed between
+    ~-.5 and 1 and on a scale of -2 to 2, this implies a skew to the right.
+
+8. Now that you have looked at this data visually for normality, you will now 
+quantify normality with numbers using the stat.desc() function. Include a 
+screen capture of the results produced.
+```{r}
+library(pastecs)
+stat.desc(comm_sur$HSDegree, basic = TRUE, desc = TRUE, norm = TRUE)
+```
+
+9. In several sentences provide an explanation of the result produced for skew, kurtosis, and z-scores. In addition, explain how a change in the sample size 
+may change your explanation?
+    * Skew - the value -1.67 says that the distribution has a long tail in the
+    negative direction. It also says that median is larger than the mean, which
+    is true (88.70 to 87.63). The significant number of values on the tail pulls
+    the mean down. More to the points made previously, the mass of values is
+    on the right.
+    * Kurtosis - this measure desribes the measure of both tails (unlike skew).
+    Stated another way, it's a measure of tailedness. (Sources: https://www.spcforexcel.com/knowledge/basic-statistics/are-skewness-and-kurtosis-useful-statistics and https://en.wikipedia.org/wiki/Kurtosis)
+    The value 4.35 shows that HSDegree is leptokurtic (>0) with too many scores
+    in the tails (in this case on the left tail).
+    * z-scores - generally, according to the Discovering Statistics Using R
+    "text", z-score is "the value of an observation expressed in standard
+    deviation units." However, the z-score is not computed using stats.desc(). 
+    The value can be calculated, however, using z = (X - μ) / σ where z is the 
+    z-score, X is the value of the element, μ is the population mean, and σ is 
+    the standard deviation. In this case, we have no X, so I'm unsure what is
+    expected. 
+
+10. Repeat steps 3 through 9 for the BachDegree variable.
+
+3. Create a Histogram of the BachDegree variable using the ggplot2 package. 
+Set a bin size for the Histogram.
+```{r}
+ggplot(comm_sur, aes(x = BachDegree)) + geom_histogram(binwidth=1)
+```
+
+4. Include a Title and appropriate X/Y axis labels on your Histogram Plot.
+```{r}
+ggplot(comm_sur, aes(x = BachDegree)) + geom_histogram(binwidth=1) +   
+  ggtitle("Histogram of Bachelor Degree") +
+  labs(x = "Count of Bachelor Degrees", y = "Frequency")
+```
+
+5. Answer the following questions based on the Histogram produced: 
+    a) **Based on what you see in this histogram, is the data distribution 
+    unimodal?** The histogram does not appear to be unimodel. While there is
+    one dominant hump at 30, there's also other smaller ones throughout the
+    disribution, especially above 30.
+    b) **Is it approximately symmetrical?** No - the histogram is clearly 
+    skewed left, with counts below 40 dominating the graph.
+    c) **Is it approximately bell-shaped?** No. Again, there are clear sub-peaks
+    throughout and the peak itself is (fairly far) left of center.
+    d) **Is it approximately normal?** Looking at the historgram as a whole
+    (and without any other calculations), I'd say it is not normal; the 
+    distribution is skewed towards the lower values. 
+    e) **If not normal, is the distribution skewed? If so, in which direction? 
+    Provide specifics in your responses.** Please refer to 5d for my response
+    to this. (Skewed left because the majority of values lie below 40 on a 
+    scale from 0 - 60).
+    f) **Include a normal curve to the Histogram that you plotted.**
+```{r}
+ggplot(comm_sur, aes(x = BachDegree)) + geom_histogram(binwidth=1) +   
+  ggtitle("Histogram of Bachelor Degree") +
+  labs(x = "Count of Bachelor Degrees", y = "Frequency") +
+  geom_density(aes(y=0.045*..count..), colour="red")
+```
+    
+    I'm not entirely sure this is what is required. The red curve doesn't look
+    any more normal than the historgram, as was the case with HSDegree.
+    
+5. Continued
+    g) **Explain whether a normal distribution can accurately be used as a 
+    model for this data.** I do not believe so because again, the data is so
+    heavily skewed left and the data is also fairly random looking at all the
+    peaks and valleys.
+6. Create a Probability Plot of the HSDegree variable.
+```{r}
+qqnorm(comm_sur$BachDegree, pch = 1, frame = FALSE)
+qqline(comm_sur$BachDegree, col = "steelblue", lwd = 2)
+```
+
+The solid line is a reference line of the probability plot.
+
+7. Answer the following questions based on the Probability Plot:
+    a) **Based on what you see in this probability plot, is the distribution 
+    approximately normal? Explain how you know.** The Q-Q plot shows a pretty
+    normal distribution, given how close the ideal line the values fall.
+    b) **If not normal, is the distribution skewed?** N/A.
+
+8. Now that you have looked at this data visually for normality, you will now 
+quantify normality with numbers using the stat.desc() function. Include a 
+screen capture of the results produced.
+```{r}
+library(pastecs)
+stat.desc(comm_sur$BachDegree, basic = TRUE, desc = TRUE, norm = TRUE)
+```
+
+9. In several sentences provide an explanation of the result produced for skew, kurtosis, and z-scores. In addition, explain how a change in the sample size 
+may change your explanation?
+    * Skew - the value .328 says that the distribution has a short tail in the
+    positive direction. This appears to be a more normal distribution.
+    * Kurtosis - the value -0.28 shows that BachDegree is platykurtic (<0) 
+    with the values (marginally) flat vis-a-vis the tails.
+    * z-scores - generally, according to the Discovering Statistics Using R
+    "text", z-score is "the value of an observation expressed in standard
+    deviation units." However, the z-score is not computed using stats.desc(). 
+    The value can be calculated, however, using z = (X - μ) / σ where z is the 
+    z-score, X is the value of the element, μ is the population mean, and σ is 
+    the standard deviation. In this case, we have no X, so I'm unsure what is
+    expected.
+    
