@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "720372154",
+    "hash" : "0",
     "id" : "A87D9AD7",
-    "lastKnownWriteTime" : 1567965778,
-    "last_content_update" : 1567965778,
+    "lastKnownWriteTime" : 1569623919,
+    "last_content_update" : 1569623919609,
     "path" : "~/GitHub/Community-Survey-Analysis/ACS Analysis.Rmd",
     "project_path" : "ACS Analysis.Rmd",
     "properties" : {
-        "cursorPosition" : "1,42",
-        "scrollLine" : "0"
+        "cursorPosition" : "44,55",
+        "scrollLine" : "28"
     },
     "read_only" : false,
     "read_only_alternatives" : [
