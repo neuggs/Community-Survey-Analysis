@@ -1,19 +1,19 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1567965752873.000,
+    "created" : 1570101877575.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "0",
-    "id" : "A87D9AD7",
-    "lastKnownWriteTime" : 1569623919,
-    "last_content_update" : 1569623919609,
+    "hash" : "3605481342",
+    "id" : "7622269E",
+    "lastKnownWriteTime" : 1570102447,
+    "last_content_update" : 1570102447763,
     "path" : "~/GitHub/Community-Survey-Analysis/ACS Analysis.Rmd",
     "project_path" : "ACS Analysis.Rmd",
     "properties" : {
-        "cursorPosition" : "44,55",
-        "scrollLine" : "28"
+        "cursorPosition" : "3,22",
+        "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
